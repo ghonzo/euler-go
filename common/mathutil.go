@@ -19,3 +19,36 @@ func LCM(a, b int, integers ...int) int {
 
 	return result
 }
+
+// Find all the prime factors (including repeats) of the given number
+func PrimeFactors(n int) []int {
+	var factors []int
+	// Take care of the 2s
+	for n%2 == 0 {
+		factors = append(factors, 2)
+		n /= 2
+	}
+	for i := 3; i*i < n; i += 2 {
+		for n%i == 0 {
+			factors = append(factors, i)
+			n /= i
+		}
+	}
+	if n > 1 {
+		factors = append(factors, n)
+	}
+	return factors
+}
+
+// Returns true if the given (positive) number is prime
+func IsPrime(n int) bool {
+	if n%2 == 0 {
+		return false
+	}
+	for i := 3; i*i < n; i += 2 {
+		if n%i == 0 {
+			return false
+		}
+	}
+	return true
+}

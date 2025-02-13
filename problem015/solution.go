@@ -3,6 +3,7 @@ package main
 
 import (
 	"fmt"
+	"math/big"
 )
 
 // Problem 15: Lattice Paths
@@ -32,4 +33,10 @@ func cycle(a []int) []int {
 	}
 	b[len(a)] = a[len(a)-1] * 2
 	return b
+}
+
+func solve2(n int) int {
+	// Oh, there's a function in go for binomial coefficients!
+	var z big.Int
+	return int(z.Binomial(int64(n*2), int64(n)).Int64())
 }

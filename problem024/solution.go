@@ -3,6 +3,8 @@ package main
 
 import (
 	"fmt"
+	"slices"
+	"strings"
 )
 
 // Problem 24: Lexicographic Permutations
@@ -11,9 +13,13 @@ func main() {
 	fmt.Println("Problem 24:", solve())
 }
 
-func solve() []int {
-	var count int
-	return permute([]int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, &count, 1000000)
+func solve() string {
+	seq := permute([]int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, new(int), 1000000)
+	var sb strings.Builder
+	for _, d := range seq {
+		sb.WriteByte('0' + byte(d))
+	}
+	return sb.String()
 }
 
 func permute(s []int, count *int, limit int) []int {
@@ -23,15 +29,9 @@ func permute(s []int, count *int, limit int) []int {
 		return s
 	}
 	for i := range s {
-		rest := make([]int, 0)
-		rest = append(rest, s[:i]...)
-		rest = append(rest, s[i+1:]...)
-		p = permute(rest, count, limit)
+		p = permute(slices.Concat(s[:i], s[i+1:]), count, limit)
 		if *count == limit {
-			ret := make([]int, 0)
-			ret = append(ret, s[i])
-			ret = append(ret, p...)
-			return ret
+			return slices.Insert(p, 0, s[i])
 		}
 	}
 	return p

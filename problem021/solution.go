@@ -3,6 +3,8 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/ghonzo/euler-go/common"
 )
 
 // Problem 21: Amicable Numbers
@@ -26,22 +28,9 @@ func solve() int {
 }
 
 func sumDivisors(n int) int {
-	sum := 1
-	for _, x := range divisors(n) {
+	var sum int
+	for _, x := range common.ProperDivisors(n) {
 		sum += x
 	}
 	return sum
-}
-
-func divisors(n int) []int {
-	var d []int
-	for i := 2; i*i <= n; i++ {
-		if n%i == 0 {
-			d = append(d, i)
-			if i*i != n {
-				d = append(d, n/i)
-			}
-		}
-	}
-	return d
 }

@@ -52,3 +52,19 @@ func IsPrime(n int) bool {
 	}
 	return true
 }
+
+// Returns all divisors of the number n, excluding n itself.
+//
+// For example, 1, 2, and 3 are proper divisors of 6.
+func ProperDivisors(n int) []int {
+	d := []int{1}
+	for i := 2; i*i <= n; i++ {
+		if n%i == 0 {
+			d = append(d, i)
+			if i*i != n {
+				d = append(d, n/i)
+			}
+		}
+	}
+	return d
+}

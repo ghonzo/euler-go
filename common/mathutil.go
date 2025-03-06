@@ -13,8 +13,8 @@ func GCD(a, b int) int {
 func LCM(a, b int, integers ...int) int {
 	result := a * b / GCD(a, b)
 
-	for i := 0; i < len(integers); i++ {
-		result = LCM(result, integers[i])
+	for _, j := range integers {
+		result = LCM(result, j)
 	}
 
 	return result
@@ -28,7 +28,7 @@ func PrimeFactors(n int) []int {
 		factors = append(factors, 2)
 		n /= 2
 	}
-	for i := 3; i*i < n; i += 2 {
+	for i := 3; i*i <= n; i += 2 {
 		for n%i == 0 {
 			factors = append(factors, i)
 			n /= i
@@ -45,7 +45,7 @@ func IsPrime(n int) bool {
 	if n%2 == 0 {
 		return false
 	}
-	for i := 3; i*i < n; i += 2 {
+	for i := 3; i*i <= n; i += 2 {
 		if n%i == 0 {
 			return false
 		}

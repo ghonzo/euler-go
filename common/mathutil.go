@@ -42,6 +42,9 @@ func PrimeFactors(n int) []int {
 
 // Returns true if the given (positive) number is prime
 func IsPrime(n int) bool {
+	if n == 2 {
+		return true
+	}
 	if n%2 == 0 {
 		return false
 	}

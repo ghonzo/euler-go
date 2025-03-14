@@ -18,24 +18,39 @@ func solve() int {
 	var sum int
 outer:
 	for i := 37; found < 11; i += 2 {
+		// If it ends in 5 or 1, not gonna work
+		if i%10 == 5 || i%10 == 1 {
+			continue
+		}
+		// Now look every other digit
 		var pow = 10
 		for pow < i {
-			right := i % pow
-			if right == 1 || !common.IsPrime(right) {
+			n := i / pow
+			switch n % 10 {
+			case 0, 2, 4, 6, 8:
+				i = ((i+pow)/10)*10 + 1
+				continue outer
+			case 5:
+				i = ((i+pow*2)/10)*10 + 1
+				continue outer
+			}
+			if n == 1 || !common.IsPrime(n) {
 				continue outer
 			}
 			pow *= 10
 		}
-		for pow > 1 {
+		// Now go the other way
+		for pow > 10 {
 			pow /= 10
-			left := i / pow
-			if left == 1 || !common.IsPrime(left) {
+			if !common.IsPrime(i % pow) {
 				continue outer
 			}
 		}
-		found++
-		fmt.Println(found, i)
-		sum += i
+		if common.IsPrime(i) {
+			found++
+			fmt.Println(found, i)
+			sum += i
+		}
 	}
 	return sum
 }

@@ -18,23 +18,24 @@ func solve() int {
 	var sum int
 outer:
 	for i := 37; found < 11; i += 2 {
-		if common.IsPrime(i) {
-			var pow = 10
-			for {
-				right := i / pow
-				if right == 0 {
-					break
-				}
-				left := i % pow
-				if left == 1 || right == 1 || !common.IsPrime(left) || !common.IsPrime(right) {
-					continue outer
-				}
-				pow *= 10
+		var pow = 10
+		for pow < i {
+			right := i % pow
+			if right == 1 || !common.IsPrime(right) {
+				continue outer
 			}
-			found++
-			fmt.Println(found, i)
-			sum += i
+			pow *= 10
 		}
+		for pow > 1 {
+			pow /= 10
+			left := i / pow
+			if left == 1 || !common.IsPrime(left) {
+				continue outer
+			}
+		}
+		found++
+		fmt.Println(found, i)
+		sum += i
 	}
 	return sum
 }

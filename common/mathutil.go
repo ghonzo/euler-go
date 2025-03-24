@@ -1,6 +1,8 @@
 // Project Euler
 package common
 
+import "strconv"
+
 // greatest common divisor (GCD) via Euclidean algorithm
 func GCD(a, b int) int {
 	for b != 0 {
@@ -70,4 +72,13 @@ func ProperDivisors(n int) []int {
 		}
 	}
 	return d
+}
+
+// Just like strconv.Atoi, but without the annoying error return value
+func Atoi(s string) int {
+	n, err := strconv.Atoi(s)
+	if err != nil {
+		panic(err)
+	}
+	return n
 }

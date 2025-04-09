@@ -42,22 +42,6 @@ func PrimeFactors(n int) []int {
 	return factors
 }
 
-// Returns true if the given (positive) number is prime
-func IsPrime(n int) bool {
-	if n == 2 {
-		return true
-	}
-	if n%2 == 0 {
-		return false
-	}
-	for i := 3; i*i <= n; i += 2 {
-		if n%i == 0 {
-			return false
-		}
-	}
-	return true
-}
-
 // Returns all divisors of the number n, excluding n itself.
 //
 // For example, 1, 2, and 3 are proper divisors of 6.

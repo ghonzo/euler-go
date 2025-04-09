@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	mapset "github.com/deckarep/golang-set/v2"
+	"github.com/ghonzo/euler-go/common"
 )
 
 // Problem 49: Prime Permutations
@@ -18,14 +19,7 @@ const maxLimit = 10000
 
 func solve(lower int) string {
 	// First find all the prime numbers
-	notPrime := make([]bool, maxLimit)
-	for i := 2; i < maxLimit; i++ {
-		if !notPrime[i] {
-			for j := 2 * i; j < maxLimit; j += i {
-				notPrime[j] = true
-			}
-		}
-	}
+	notPrime := common.SieveNotPrimes(maxLimit)
 	// Now work through the numbers
 	for i := lower; i < maxLimit; i += 2 {
 		if notPrime[i] {

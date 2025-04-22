@@ -3,6 +3,8 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/ghonzo/euler-go/common"
 )
 
 // Problem 34: Digit Factorials
@@ -23,8 +25,8 @@ func solve() int {
 	// Can't be more than 9! x 7
 	for v := 11; v < 2540160; v++ {
 		var s int
-		for u := v; u > 0; u /= 10 {
-			s += fact[u%10]
+		for _, d := range common.DigitsFromInt(v).Ints() {
+			s += fact[d]
 		}
 		if s == v {
 			sum += s

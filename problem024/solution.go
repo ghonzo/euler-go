@@ -3,8 +3,8 @@ package main
 
 import (
 	"fmt"
-	"slices"
-	"strings"
+
+	"github.com/etnz/permute"
 )
 
 // Problem 24: Lexicographic Permutations
@@ -14,25 +14,14 @@ func main() {
 }
 
 func solve() string {
-	seq := permute([]int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, new(int), 1000000)
-	var sb strings.Builder
-	for _, d := range seq {
-		sb.WriteByte('0' + byte(d))
-	}
-	return sb.String()
-}
-
-func permute(s []int, count *int, limit int) []int {
-	var p []int
-	if len(s) == 1 {
-		(*count)++
-		return s
-	}
-	for i := range s {
-		p = permute(slices.Concat(s[:i], s[i+1:]), count, limit)
-		if *count == limit {
-			return slices.Insert(p, 0, s[i])
+	var i int
+	digits := []byte{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
+	// We need the 1,000,000th permutation of the digits 0-9
+	for perm := range permute.LexPermutations(digits) {
+		i++
+		if i == 1000000 {
+			return string(perm)
 		}
 	}
-	return p
+	panic("should never reach here")
 }

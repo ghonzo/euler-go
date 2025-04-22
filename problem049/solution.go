@@ -3,7 +3,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 
 	mapset "github.com/deckarep/golang-set/v2"
 	"github.com/ghonzo/euler-go/common"
@@ -38,10 +37,6 @@ func solve(lower int) string {
 	panic("no solution")
 }
 
-func digits(n int) mapset.Set[rune] {
-	digitSet := mapset.NewThreadUnsafeSet[rune]()
-	for _, r := range strconv.Itoa(n) {
-		digitSet.Add(r)
-	}
-	return digitSet
+func digits(n int) mapset.Set[int] {
+	return mapset.NewThreadUnsafeSet(common.DigitsFromInt(n).Ints()...)
 }

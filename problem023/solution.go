@@ -4,6 +4,7 @@ package main
 import (
 	"fmt"
 
+	mapset "github.com/deckarep/golang-set/v2"
 	"github.com/ghonzo/euler-go/common"
 )
 
@@ -22,20 +23,20 @@ func solve() int {
 		}
 	}
 	// Now mark all numbers that can be the sum of two abundant numbers in a set
-	sumSet := make(map[int]bool)
+	sumSet := mapset.NewThreadUnsafeSet[int]()
 	for i, n1 := range abundantNumbers {
 		for _, n2 := range abundantNumbers[i:] {
 			sum := n1 + n2
 			if sum > 28123 {
 				break
 			}
-			sumSet[sum] = true
+			sumSet.Add(sum)
 		}
 	}
 	// Finally sum every number not in the set
 	var sum int
 	for n := 1; n <= 28123; n++ {
-		if !sumSet[n] {
+		if !sumSet.Contains(n) {
 			sum += n
 		}
 	}

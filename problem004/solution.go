@@ -3,7 +3,8 @@ package main
 
 import (
 	"fmt"
-	"strconv"
+
+	"github.com/ghonzo/euler-go/common"
 )
 
 // Problem 4: Largest Palindrome Product
@@ -28,10 +29,10 @@ outer:
 }
 
 func isPalindrome(n int) bool {
-	nStr := strconv.Itoa(n)
-	l := len(nStr)
+	digits := common.DigitsFromInt(n)
+	l := len(digits)
 	for i := 0; i*2 < l; i++ {
-		if nStr[i] != nStr[l-i-1] {
+		if digits[i] != digits[l-i-1] {
 			return false
 		}
 	}

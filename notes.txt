@@ -1,0 +1,25 @@
+Interesting Characteristics of the Problems
+
+Problem 11
+* 2D grid of ints
+
+Problem 15
+* Binomial coefficients
+
+Problem 19
+* Date library
+
+Problem 22
+* Read from a file
+
+Problem 24
+* Generating permutations of a slice
+
+Problem 32
+* Use Digits
+
+Problem 38
+* Pandigital is a number that has digits 1-9
+
+Problem 43
+* Use permutations library

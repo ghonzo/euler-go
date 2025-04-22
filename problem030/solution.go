@@ -26,7 +26,7 @@ func solve() int {
 
 func isSolution(n int) bool {
 	var sum int
-	for _, d := range common.DigitsFromInt(n) {
+	for _, d := range common.DigitsFromInt(n).Ints() {
 		// We could memoize this if we needed more performance
 		sum += d * d * d * d * d
 	}

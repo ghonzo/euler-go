@@ -38,8 +38,8 @@ func solve() int {
 	grid := convertToGrid(gridStr)
 	var maxValue int
 	// Horizontal
-	for row := 0; row < 20; row++ {
-		for col := 0; col < 16; col++ {
+	for row := range 20 {
+		for col := range 16 {
 			prod := 1
 			for i := 0; i < 4 && prod > 0; i++ {
 				prod *= grid[row][col+i]
@@ -48,8 +48,8 @@ func solve() int {
 		}
 	}
 	// Vertical
-	for col := 0; col < 20; col++ {
-		for row := 0; row < 16; row++ {
+	for col := range 20 {
+		for row := range 16 {
 			prod := 1
 			for i := 0; i < 4 && prod > 0; i++ {
 				prod *= grid[row+i][col]
@@ -58,8 +58,8 @@ func solve() int {
 		}
 	}
 	// Diagonal NW-SE
-	for row := 0; row < 16; row++ {
-		for col := 0; col < 16; col++ {
+	for row := range 16 {
+		for col := range 16 {
 			prod := 1
 			for i := 0; i < 4 && prod > 0; i++ {
 				prod *= grid[row+i][col+i]
@@ -68,8 +68,8 @@ func solve() int {
 		}
 	}
 	// Diagonal NE-SW
-	for row := 0; row < 16; row++ {
-		for col := 0; col < 16; col++ {
+	for row := range 16 {
+		for col := range 16 {
 			prod := 1
 			for i := 0; i < 4 && prod > 0; i++ {
 				prod *= grid[row+i][col+3-i]

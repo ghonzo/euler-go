@@ -16,7 +16,7 @@ func main() {
 
 func solve() int {
 	// This is some real brute force stuff here, but works with modern hardware!
-	for n := 987654321; ; n-- {
+	for n := 987654321; ; n -= 2 {
 		if isPandigital(n) && common.IsPrime(n) {
 			return n
 		}

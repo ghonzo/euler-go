@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	mapset "github.com/deckarep/golang-set/v2"
+	"github.com/ghonzo/euler-go/common"
 )
 
 // Problem 32: Pandigital Products
@@ -13,59 +14,48 @@ func main() {
 	fmt.Println("Problem 32:", solve())
 }
 
-type num struct {
-	int
-	digits mapset.Set[int]
-}
-
-func (n num) numDigits() int {
-	return n.digits.Cardinality()
-}
-
-// Only creates numbers that have no repeating digits. Returns true if successful
-func createNum(v int) (num, bool) {
-	n := num{v, nil}
-	s := mapset.NewThreadUnsafeSet[int]()
-	for v > 0 {
-		d := v % 10
-		if d == 0 || !s.Add(d) {
-			return n, false
-		}
-		v = v / 10
-	}
-	n.digits = s
-	return n, true
-}
-
 func solve() int {
 	var sum int
 	found := mapset.NewThreadUnsafeSet[int]()
 	for a := 2; a <= 98; a++ {
-		aNum, ok := createNum(a)
-		if !ok {
+		aDigits := common.DigitsFromInt(a)
+		if hasRepeatingDigits(aDigits) {
 			continue
 		}
 		for b := a + 1; ; b++ {
-			cNum, ok := createNum(a * b)
-			if cNum.int > 9876 {
+			cDigits := common.DigitsFromInt(a * b)
+			if cDigits.Int() > 9876 {
 				break
 			}
-			if !ok || found.Contains(cNum.int) {
+			if found.Contains(cDigits.Int()) || hasRepeatingDigits(cDigits) {
 				continue
 			}
-			bNum, ok := createNum(b)
-			if !ok {
+			bDigits := common.DigitsFromInt(b)
+			if hasRepeatingDigits(bDigits) {
 				continue
 			}
-			if aNum.numDigits()+bNum.numDigits()+cNum.numDigits() != 9 {
+			if len(aDigits.Ints())+len(bDigits.Ints())+len(cDigits.Ints()) != 9 {
 				continue
 			}
-			if aNum.digits.Union(bNum.digits).Union(cNum.digits).Cardinality() == 9 {
-				//fmt.Printf("%d x %d = %d\n", aNum.int, bNum.int, cNum.int)
-				sum += cNum.int
-				found.Add(cNum.int)
+			digitSet := mapset.NewThreadUnsafeSet(aDigits.Ints()...)
+			digitSet.Append(bDigits.Ints()...)
+			digitSet.Append(cDigits.Ints()...)
+			if digitSet.Cardinality() == 9 {
+				sum += cDigits.Int()
+				found.Add(cDigits.Int())
 			}
 		}
 	}
 	return sum
+}
+
+// Also returns true if one of the digits is 0
+func hasRepeatingDigits(d common.Digits) bool {
+	s := mapset.NewThreadUnsafeSet[int]()
+	for _, v := range d.Ints() {
+		if v == 0 || !s.Add(v) {
+			return true
+		}
+	}
+	return false
 }

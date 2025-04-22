@@ -3,6 +3,8 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/ghonzo/euler-go/common"
 )
 
 // Problem 30: Digit Fifth Powers
@@ -24,9 +26,8 @@ func solve() int {
 
 func isSolution(n int) bool {
 	var sum int
-	for x := n; x > 0; x /= 10 {
-		d := x % 10
-		// We could memoize these if we needed more performance
+	for _, d := range common.DigitsFromInt(n) {
+		// We could memoize this if we needed more performance
 		sum += d * d * d * d * d
 	}
 	return sum == n

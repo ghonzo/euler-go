@@ -29,7 +29,7 @@ outer:
 }
 
 func isPalindrome(n int) bool {
-	d := common.DigitsFromInt(n).Ints()
+	d := common.DigitsFromInt(n)
 	l := len(d)
 	for i := 0; i*2 < l; i++ {
 		if d[i] != d[l-i-1] {

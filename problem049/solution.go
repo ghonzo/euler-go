@@ -38,5 +38,5 @@ func solve(lower int) string {
 }
 
 func digits(n int) mapset.Set[int] {
-	return mapset.NewThreadUnsafeSet(common.DigitsFromInt(n).Ints()...)
+	return mapset.NewThreadUnsafeSet(common.DigitsFromInt(n)...)
 }

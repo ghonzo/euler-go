@@ -25,7 +25,7 @@ func solve() int {
 	// Can't be more than 9! x 7
 	for v := 11; v < 2540160; v++ {
 		var s int
-		for _, d := range common.DigitsFromInt(v).Ints() {
+		for _, d := range common.DigitsFromInt(v) {
 			s += fact[d]
 		}
 		if s == v {

@@ -34,12 +34,12 @@ func solve() int {
 			if hasRepeatingDigits(bDigits) {
 				continue
 			}
-			if len(aDigits.Ints())+len(bDigits.Ints())+len(cDigits.Ints()) != 9 {
+			if len(aDigits)+len(bDigits)+len(cDigits) != 9 {
 				continue
 			}
-			digitSet := mapset.NewThreadUnsafeSet(aDigits.Ints()...)
-			digitSet.Append(bDigits.Ints()...)
-			digitSet.Append(cDigits.Ints()...)
+			digitSet := mapset.NewThreadUnsafeSet(aDigits...)
+			digitSet.Append(bDigits...)
+			digitSet.Append(cDigits...)
 			if digitSet.Cardinality() == 9 {
 				sum += cDigits.Int()
 				found.Add(cDigits.Int())
@@ -52,7 +52,7 @@ func solve() int {
 // Also returns true if one of the digits is 0
 func hasRepeatingDigits(d common.Digits) bool {
 	s := mapset.NewThreadUnsafeSet[int]()
-	for _, v := range d.Ints() {
+	for _, v := range d {
 		if v == 0 || !s.Add(v) {
 			return true
 		}

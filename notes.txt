@@ -23,3 +23,6 @@ Problem 38
 
 Problem 43
 * Use permutations library
+
+Problem 54
+* Created a card class for poker hands

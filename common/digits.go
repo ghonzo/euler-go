@@ -25,9 +25,10 @@ func DigitsFromBigInt(n *big.Int) Digits {
 	}
 	var d []int
 	ten := big.NewInt(10)
-	for n.Sign() > 0 {
-		var mod *big.Int
-		n.DivMod(n, ten, mod)
+	z := new(big.Int).Set(n)
+	for z.Sign() > 0 {
+		mod := new(big.Int)
+		z, mod = z.DivMod(z, ten, mod)
 		d = append([]int{int(mod.Int64())}, d...)
 	}
 	return d

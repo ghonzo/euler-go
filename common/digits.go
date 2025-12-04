@@ -10,7 +10,7 @@ func DigitsFromInt(n int) Digits {
 	}
 	var d []int
 	for n > 0 {
-		d = append(d, n%10)
+		d = append([]int{n % 10}, d...)
 		n /= 10
 	}
 	return d

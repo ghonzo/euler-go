@@ -3,40 +3,49 @@ package main
 
 import (
 	"fmt"
+	"time"
 
-	mapset "github.com/deckarep/golang-set/v2"
 	"github.com/ghonzo/euler-go/common"
 )
 
 // Problem 69: Totient Maximum
-// Solution:
+// Solution: 510510
 func main() {
-	fmt.Println("Problem 69:", solve(1000000))
+	start := time.Now()
+	fmt.Printf("Problem 69: %d (%s)", solve(1000000), time.Since(start))
 }
 
-// This is naive. Do something like the sieve.
+// This takes a long time to run, but it does complete.
 func solve(maxN int) int {
-	var maxTotient float64
-	var maxTotientN int
-	// For each value of n, calculate and store the proper divisors, without 1
-	// The index will be (n-2)
-	var divisors []mapset.Set[int] = []mapset.Set[int]{mapset.NewThreadUnsafeSet(2)}
-	for n := 3; n <= maxN; n++ {
-		nDivisors := mapset.NewThreadUnsafeSet(common.ProperDivisors(n)[1:]...)
-		// Number one is always there
-		relativelyPrime := 1
-		for p := 2; p < n; p++ {
-			if !nDivisors.Contains(p) && !divisors[p-2].ContainsAnyElement(nDivisors) {
-				relativelyPrime++
+	// For each n, store how many lower numbers are NOT relatively prime
+	nonPrime := make([]int, maxN+1)
+	// A temp slice that we zero out each time that keeps track of all multiple of prime factors
+	isMultiple := make([]int, maxN+1)
+	for n := 2; n <= maxN; n++ {
+		clear(isMultiple)
+		for _, pd := range common.ProperDivisors(n) {
+			// Replace "1" with the actual number
+			if pd == 1 {
+				pd = n
+			}
+			for m := n; m <= maxN; m += pd {
+				isMultiple[m] = 1
 			}
 		}
+		for i := n; i <= maxN; i++ {
+			nonPrime[i] += isMultiple[i]
+		}
+	}
+	var maxTotient float64
+	var maxTotientN int
+	// Now calculate totients and find max
+	for n := 2; n <= maxN; n++ {
+		relativelyPrime := n - nonPrime[n]
 		totient := float64(n) / float64(relativelyPrime)
 		if totient > maxTotient {
 			maxTotient = totient
 			maxTotientN = n
 		}
-		// Save them
-		divisors = append(divisors, nDivisors)
 	}
 	return maxTotientN
 }

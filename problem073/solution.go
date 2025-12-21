@@ -9,7 +9,7 @@ import (
 )
 
 // Problem 73: Counting Fractions in a Range
-// Solution:
+// Solution: 7295372
 func main() {
 	start := time.Now()
 	fmt.Printf("Problem 73: %d (%s)", solve(12000), time.Since(start))

@@ -8,7 +8,7 @@ import (
 // Problem 31: Coin Sums
 // Solution: 73682
 func main() {
-	fmt.Println("Problem 14:", solve())
+	fmt.Println("Problem 31:", solve())
 }
 
 type coins struct {

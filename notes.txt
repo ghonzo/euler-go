@@ -26,3 +26,6 @@ Problem 43
 
 Problem 54
 * Created a card class for poker hands
+
+Problem 80
+* Arbitrary precision decimals

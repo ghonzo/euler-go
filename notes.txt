@@ -29,3 +29,6 @@ Problem 54
 
 Problem 80
 * Arbitrary precision decimals
+
+Problem 81
+* Path-finding with a priority queue

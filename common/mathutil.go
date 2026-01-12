@@ -66,3 +66,8 @@ func Atoi(s string) int {
 	}
 	return n
 }
+
+// Returns the absolute value of an integer
+func Abs(a int) int {
+	return max(a, -a)
+}

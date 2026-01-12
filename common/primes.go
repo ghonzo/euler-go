@@ -45,3 +45,18 @@ outer:
 	}
 	return primes
 }
+
+// Return all the prime numbers up to a given limit
+func PrimesUpTo(limit int) []int {
+	primes := []int{2, 3}
+outer:
+	for i := 5; i <= limit; i += 2 {
+		for _, factor := range primes[1:] {
+			if i%factor == 0 {
+				continue outer
+			}
+		}
+		primes = append(primes, i)
+	}
+	return primes
+}

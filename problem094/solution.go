@@ -24,8 +24,8 @@ func solve(upperPerimeter int) int {
 			return sum
 		}
 		f := calcArea(a, b)
-		if i, ok := floatToInt(f); ok {
-			sum += i
+		if _, ok := floatToInt(f); ok {
+			sum += p
 		}
 		b = a + 1
 		p = 2*a + b
@@ -33,15 +33,15 @@ func solve(upperPerimeter int) int {
 			continue
 		}
 		f = calcArea(a, b)
-		if i, ok := floatToInt(f); ok {
-			sum += i
+		if _, ok := floatToInt(f); ok {
+			sum += p
 		}
 	}
 }
 
 func floatToInt(f float64) (int, bool) {
 	rounded := math.Round(f)
-	if math.Abs(f - rounded) < 0.000001 {
+	if rounded == f {
 		return int(rounded), true
 	}
 	return 0, false

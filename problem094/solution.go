@@ -8,7 +8,7 @@ import (
 )
 
 // Problem 94: Almost Equilateral Triangles
-// Solution:
+// Solution: 191856
 func main() {
 	start := time.Now()
 	fmt.Printf("Problem 94: %d (%s)", solve(1000000000), time.Since(start))
@@ -23,8 +23,8 @@ func solve(upperPerimeter int) int {
 		if p > upperPerimeter {
 			return sum
 		}
-		f := calcArea(a, b)
-		if _, ok := floatToInt(f); ok {
+		f := calcAreaSq(a, b)
+		if _, ok := intSqrt(f); ok {
 			sum += p
 		}
 		b = a + 1
@@ -32,22 +32,22 @@ func solve(upperPerimeter int) int {
 		if p > upperPerimeter {
 			continue
 		}
-		f = calcArea(a, b)
-		if _, ok := floatToInt(f); ok {
+		f = calcAreaSq(a, b)
+		if _, ok := intSqrt(f); ok {
 			sum += p
 		}
 	}
 }
 
-func floatToInt(f float64) (int, bool) {
-	rounded := math.Round(f)
-	if rounded == f {
-		return int(rounded), true
+func intSqrt(f float64) (int, bool) {
+	is := int(math.Sqrt(f))
+	if is*is == int(f) && f == math.Floor(f) {
+		return is, true
 	}
 	return 0, false
 }
 
-func calcArea(a, b int) float64 {
-	af, bf := float64(a), float64(b)
-	return 0.5*bf*math.Sqrt(af*af-bf*bf/4)
+func calcAreaSq(a, b int) float64 {
+	af, bf := float64(a*a), float64(b*b) / 4.0
+	return bf*(af - bf)
 }

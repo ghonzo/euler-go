@@ -32,7 +32,6 @@ func solve() int {
 		if len(s) == 0 || err == io.EOF {
 			break
 		}
-		fmt.Println("Read:", s)
 		bv, err := convertToBoardValues(bufReader)
 		if err != nil {
 			panic(err)
@@ -55,8 +54,8 @@ type boardValues [9][9]byte
 
 func (bv boardValues) String() string {
 	var sb strings.Builder
-	for row := 0; row < 9; row++ {
-		for col := 0; col < 9; col++ {
+	for row := range 9 {
+		for col := range 9 {
 			v := bv[row][col]
 			if v == 0 {
 				sb.WriteByte('.')
@@ -74,8 +73,8 @@ func (bv boardValues) String() string {
 func convertToBoardValues(br *bufio.Reader) (boardValues, error) {
 	var bv boardValues
 	// I expect 9 lines of 9 characters. Otherwise it's an error
-	for row := 0; row < 9; row++ {
-		for col := 0; col < 9; col++ {
+	for row := range 9 {
+		for col := range 9 {
 			b, err := br.ReadByte()
 			if err != nil {
 				return bv, err
@@ -108,8 +107,8 @@ type board [9][9]*cell
 
 func createBoard(bv boardValues) (board, error) {
 	var b board
-	for row := 0; row < 9; row++ {
-		for col := 0; col < 9; col++ {
+	for row := range 9 {
+		for col := range 9 {
 			var c cell
 			c.row = row
 			c.col = col
@@ -118,8 +117,8 @@ func createBoard(bv boardValues) (board, error) {
 		}
 	}
 	// Fill in peers
-	for row := 0; row < 9; row++ {
-		for col := 0; col < 9; col++ {
+	for row := range 9 {
+		for col := range 9 {
 			b[row][col].peers = b.peerCells(b[row][col])
 		}
 	}
@@ -129,8 +128,8 @@ func createBoard(bv boardValues) (board, error) {
 	}
 	// Now iteratively figure out possible values
 outer:
-	for row := 0; row < 9; row++ {
-		for col := 0; col < 9; col++ {
+	for row := range 9 {
+		for col := range 9 {
 			if b[row][col].val == 0 {
 				pv := b.findPossibleValues(b[row][col])
 				switch len(pv) {
@@ -152,14 +151,14 @@ outer:
 func (b board) peerCells(c *cell) []*cell {
 	var peers []*cell
 	// First do every cell in the row
-	for col := 0; col < 9; col++ {
+	for col := range 9 {
 		pc := b[c.row][col]
 		if pc != c {
 			peers = append(peers, pc)
 		}
 	}
 	// Now every cell in the col
-	for row := 0; row < 9; row++ {
+	for row := range 9 {
 		pc := b[row][c.col]
 		if pc != c {
 			peers = append(peers, pc)
@@ -168,11 +167,11 @@ func (b board) peerCells(c *cell) []*cell {
 	// Now every cell in the "supercell"
 	rowOffset := (c.row / 3) * 3
 	colOffset := (c.col / 3) * 3
-	for row := 0; row < 3; row++ {
+	for row := range 3 {
 		if c.row == row+rowOffset {
 			continue
 		}
-		for col := 0; col < 3; col++ {
+		for col := range 3 {
 			if c.col == col+colOffset {
 				continue
 			}
@@ -198,8 +197,8 @@ func (b board) findPossibleValues(c *cell) []byte {
 
 func (b board) validate() error {
 	// Make sure that for any fixed values there are no conflicting values. This checks values multiple times so it's inefficient
-	for row := 0; row < 9; row++ {
-		for col := 0; col < 9; col++ {
+	for row := range 9 {
+		for col := range 9 {
 			v := b[row][col].val
 			if v > 0 {
 				for _, pc := range b[row][col].peers {
@@ -219,8 +218,8 @@ func (b board) String() string {
 
 func (b board) asBoardValues() boardValues {
 	var bv boardValues
-	for row := 0; row < 9; row++ {
-		for col := 0; col < 9; col++ {
+	for row := range 9 {
+		for col := range 9 {
 			bv[row][col] = b[row][col].val
 		}
 	}

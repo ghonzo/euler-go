@@ -25,20 +25,21 @@ func solve() int {
 	if err != nil {
 		panic(err)
 	}
+	// A "root" anagram (sorted by letter) pointing to all the words sharing those letters
 	anagrams := make(map[string][]string)
 	for w := range strings.SplitSeq(string(b), ",") {
 		w = strings.Trim(w, "\"")
-		sorted := sortString(w)
-		anagrams[sorted] = append(anagrams[sorted], w)
+		root := sortString(w)
+		anagrams[root] = append(anagrams[root], w)
 	}
-	// Maybe sort by anagram length descending?
+	// Sort by anagram length descending
 	var anagramRootByLength []string
 	for root, words := range anagrams {
 		if len(words) < 2 {
 			continue
 		}
 		// I'm going to make a huge assumption that no repeated letters
-		if hasRepeatedLetters(root) || len(root) > 10 {
+		if common.HasRepeatedElements([]byte(root)) || len(root) > 10 {
 			continue
 		}
 		anagramRootByLength = append(anagramRootByLength, root)
@@ -74,17 +75,6 @@ func sortString(s string) string {
 	return string(b)
 }
 
-func hasRepeatedLetters(s string) bool {
-	seen := make(map[rune]bool)
-	for _, r := range s {
-		if seen[r] {
-			return true
-		}
-		seen[r] = true
-	}
-	return false
-}
-
 var squaresByLength map[int]mapset.Set[int]
 
 func initializeSquaresByLength() {
@@ -96,7 +86,7 @@ func initializeSquaresByLength() {
 		if length > 10 {
 			break
 		}
-		if hasRepeatedDigits(nsqDigits) {
+		if common.HasRepeatedElements(nsqDigits) {
 			continue
 		}
 		set, ok := squaresByLength[length]
@@ -106,17 +96,6 @@ func initializeSquaresByLength() {
 		}
 		set.Add(nsq)
 	}
-}
-
-func hasRepeatedDigits(d common.Digits) bool {
-	seen := make(map[int]bool)
-	for _, x := range d {
-		if seen[x] {
-			return true
-		}
-		seen[x] = true
-	}
-	return false
 }
 
 func findMaxSquareForAnagramPair(a, b string) int {
@@ -145,7 +124,6 @@ func findMaxSquareForAnagramPair(a, b string) int {
 		}
 		bInt := bDigits.Int()
 		if candidateSquares.Contains(bInt) {
-			fmt.Println(a, b, maxSquare, sq, bInt)
 			maxSquare = max(maxSquare, sq, bInt)
 		}
 		return false

@@ -4,7 +4,7 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"math/big"
+	"math"
 	"os"
 	"strings"
 	"time"
@@ -13,7 +13,7 @@ import (
 )
 
 // Problem 99: Largest Exponential
-// Solution: Gives 849 which isn't right
+// Solution: 709
 func main() {
 	start := time.Now()
 	fmt.Printf("Problem 99: %d (%s)", solve(), time.Since(start))
@@ -28,25 +28,19 @@ func solve() int {
 	scanner := bufio.NewScanner(file)
 	// Now go line by line
 	var lineNum int
-	biggestNum := new(big.Int)
+	var biggestNum float64
 	var lineNumOfBiggest int
-	var biggestBase, biggestExp int
 	for scanner.Scan() {
 		lineNum++
 		line := scanner.Text()
 		parts := strings.Split(line, ",")
-		base := common.Atoi(parts[0])
-		exp := common.Atoi(parts[0])
-		if base < biggestBase && exp < biggestExp {
-			continue
-		}
-		x := big.NewInt(int64(base))
-		x.Exp(x, big.NewInt(int64(exp)), nil)
-		if x.Cmp(biggestNum) > 0 {
-			biggestNum = x
+		base := float64(common.Atoi(parts[0]))
+		exp := float64(common.Atoi(parts[1]))
+		// ln(a^b) = b*ln(a)
+		num := exp*math.Log(base)
+		if num > biggestNum {
+			biggestNum = num
 			lineNumOfBiggest = lineNum
-			biggestBase = base
-			biggestExp = exp
 		}
 	}
 	return lineNumOfBiggest
